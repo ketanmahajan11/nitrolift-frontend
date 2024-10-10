@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts Catalog</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            margin-top: 50px;
+            text-align: center;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        input[type="text"] {
+            float: right;
+            margin-top: 20px;
+            margin-right: 20px;
+            width: 200px;
+            height: 30px;
+        }
+        tr:hover {
+            background-color: lightgrey;
+            font-weight: bold;
+        }
+        tr:nth-child(even):hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" placeholder="Search" onkeyup="searchTable()">
+    <table>
+        <thead>
+            <tr>
+                <th>Part #</th>
+                <th>Extended Length</th>
+                <th>Stroke</th>
+                <th>Force</th>
+            </tr>
+        </thead>
+        <tbody id="partsTableBody"></tbody>
+    </table>
+
+    <script>
+        // Fetch parts data when the page loads
+        fetch('http://localhost:3000/api/parts')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('partsTableBody');
+                data.forEach(part => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).textContent = part.part_number;
+                    row.insertCell(1).textContent = part.extended_length;
+                    row.insertCell(2).textContent = part.stroke;
+                    row.insertCell(3).textContent = part.force;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+
+        function searchTable() {
+            // Declare variables
+            var input, filter, table, tbody, tr, td, i, j, txtValue;
+            input = document.querySelector("input[type='text']");
+            filter = input.value.toUpperCase();
+            table = document.querySelector("table");
+            tbody = table.querySelector("tbody");
+            tr = tbody.querySelectorAll("tr");
+            // Loop through all table rows, and hide those that do not match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].querySelectorAll("td");
+                var found = false;
+                for (j = 0; j < td.length; j++) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                    }
+                }
+                if (found) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
