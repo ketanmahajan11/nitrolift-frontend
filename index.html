@@ -49,7 +49,7 @@
 
     <script>
         // Fetch parts data when the page loads
-        fetch('https://nitroliftsupports.onrender.com')
+        fetch('https://nitroliftsupports.onrender.com/api/parts')
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.getElementById('partsTableBody');
