@@ -1,11 +1,14 @@
 // Replace with your Render backend URL
 const API_URL = 'https://nitroliftsupports.onrender.com';
 
+let allParts = [];
+
 // Fetch all parts
 async function fetchParts() {
     try {
         const response = await axios.get(`${API_URL}/api/parts`);
-        displayParts(response.data);
+        allParts = response.data;
+        displayParts(allParts);
     } catch (error) {
         console.error('Error fetching parts:', error);
     }
@@ -53,12 +56,12 @@ document.getElementById('addPartForm').addEventListener('submit', async (e) => {
 
 // Edit a part
 async function editPart(id) {
-    const part = await axios.get(`${API_URL}/api/parts/${id}`);
+    const part = allParts.find(p => p.id === id);
     const updatedPart = {
-        part_number: prompt('Enter new part number:', part.data.part_number),
-        extended_length: parseInt(prompt('Enter new extended length:', part.data.extended_length)),
-        stroke: parseInt(prompt('Enter new stroke:', part.data.stroke)),
-        force: prompt('Enter new force:', part.data.force)
+        part_number: prompt('Enter new part number:', part.part_number),
+        extended_length: parseInt(prompt('Enter new extended length:', part.extended_length)),
+        stroke: parseInt(prompt('Enter new stroke:', part.stroke)),
+        force: prompt('Enter new force:', part.force)
     };
 
     try {
@@ -80,6 +83,18 @@ async function deletePart(id) {
         }
     }
 }
+
+// Search functionality
+document.getElementById('searchInput').addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const filteredParts = allParts.filter(part => 
+        part.part_number.toLowerCase().includes(searchTerm) ||
+        part.extended_length.toString().includes(searchTerm) ||
+        part.stroke.toString().includes(searchTerm) ||
+        part.force.toLowerCase().includes(searchTerm)
+    );
+    displayParts(filteredParts);
+});
 
 // Initial fetch of parts when the page loads
 fetchParts();
