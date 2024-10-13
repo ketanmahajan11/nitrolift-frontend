@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">Product Catalog</h1>
+        
+        <form id="addPartForm" class="mb-8 bg-white p-6 rounded shadow">
+            <h2 class="text-xl font-semibold mb-4">Add New Part</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <input type="text" id="partNumber" placeholder="Part Number" required class="border p-2 rounded">
+                <input type="number" id="extendedLength" placeholder="Extended Length" required class="border p-2 rounded">
+                <input type="number" id="stroke" placeholder="Stroke" required class="border p-2 rounded">
+                <input type="text" id="force" placeholder="Force" required class="border p-2 rounded">
+            </div>
+            <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Part</button>
+        </form>
+        
+        <table id="partsTable" class="w-full bg-white rounded shadow">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="p-2 text-left">Part #</th>
+                    <th class="p-2 text-left">Extended Length</th>
+                    <th class="p-2 text-left">Stroke</th>
+                    <th class="p-2 text-left">Force</th>
+                    <th class="p-2 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
